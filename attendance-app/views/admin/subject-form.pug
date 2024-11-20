@@ -1,0 +1,55 @@
+extends ../layouts/dashboard
+
+block pageActions
+    div.btn-list
+        form(action="/admin/subjects/delete", method="post" onsubmit="return confirm('Are you sure you want to delete this subject?');")
+            if defaults && defaults.id
+                input(type="hidden", name="id", value=defaults.id)
+            button.btn.btn-danger(type="submit")
+                i.ti.ti-trash.me-1 
+                | Delete
+
+block pageContent 
+    div.container-xl
+        div.card.card-lg
+            div.card-body
+                if errors
+                    div.alert.alert-danger
+                        each error in errors
+                            p= error
+                form(
+                    action= defaults && defaults.id ? "/admin/subjects/edit" : "/admin/subjects/add", 
+                    method="post"
+                )
+                    if defaults && defaults.id
+                        input(type="hidden", name="id", value=defaults.id)
+                    div.row
+                        div.col-xl-12
+                            div.mb-3
+                                label.form-label(for="title") Name
+                                input.form-control(
+                                    type="text", 
+                                    name="name", 
+                                    id="name", 
+                                    placeholder="e.g. Computer Science"
+                                    value= defaults ? defaults.name : '' 
+                                )
+                            div.mb-3
+                                label.form-label(for="code") Code
+                                input.form-control(
+                                    type="text", 
+                                    name="code", 
+                                    id="code", 
+                                    placeholder="e.g. CS101"
+                                    value= defaults ? defaults.code : ''
+                                )
+                            div.mb-3
+                                label.form-label(for="creditHours") Credit Hours
+                                input.form-control(
+                                    type="number", 
+                                    name="creditHours", 
+                                    id="creditHours", 
+                                    placeholder="e.g. 3",
+                                    value= defaults ? defaults.creditHours : ''
+                                )
+                            button.btn.btn-primary(type="submit") Save

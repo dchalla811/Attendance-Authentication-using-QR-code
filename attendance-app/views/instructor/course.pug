@@ -1,0 +1,62 @@
+extends ../layouts/dashboard
+
+block pageActions
+    div.btn-list
+        span.d-none.d-sm-inline
+            a.btn(href=`/instructor/courses/${data.course.id}/attendance`)
+                | Attendance
+                    
+        form(action='/instructor/start-class', method='POST')
+            input(type='hidden', name='courseId', value=`${data.course.id}`)
+            button.btn.btn-primary(type='submit')
+                i.ti.ti-qrcode.me-1
+                | Start Class
+
+block pageContent
+    div.container-xl
+        div.card
+            div.card-body
+                div.datagrid
+                    div.datagrid-item
+                        div.datagrid-title Name
+                        div.datagrid-content #{data.course.subject.name}
+                    div.datagrid-item
+                        div.datagrid-title Code
+                        div.datagrid-content #{data.course.subject.code}
+                    div.datagrid-item
+                        div.datagrid-title Semester
+                        div.datagrid-content #{data.course.semester} #{data.course.year}
+                    div.datagrid-item
+                        div.datagrid-title Class Timing
+                        div.datagrid-content #{data.course.classStartTime} - #{data.course.classEndTime}
+                    div.datagrid-item
+                        div.datagrid-title Instructor
+                        div.datagrid-content #{data.course.instructor.user.fullName}
+                    div.datagrid-item
+                        div.datagrid-title Instructor ID
+                        div.datagrid-content #{data.course.instructor.instructorId}
+        div.card.mt-3
+            if data.students && data.students.length != 0
+                div.card-header
+                    h3.card-title Course Students
+                        span.card-subtitle (#{data.students.length})
+                div.card-body
+                    table.table
+                        thead 
+                            tr
+                                th Student ID
+                                th Full Name
+                        tbody 
+                            each student in data.students
+                                tr
+                                    td 
+                                        a(href=`/instructor/students/${student.id}`) #{student.studentId}
+                                    td #{student.user.fullName}
+            else 
+                div.card-body
+                    div.empty
+                        p.empty-title No students enrolled in this course
+
+
+
+                    

@@ -1,0 +1,39 @@
+extends ../layouts/dashboard
+
+block pageContent
+    div.container-xl
+        div.card
+            div.card-body
+                div.datagrid
+                    div.datagrid-item
+                        div.datagrid-title Full Name
+                        div.datagrid-content #{data.instructor.user.fullName}
+                    div.datagrid-item
+                        div.datagrid-title Email
+                        div.datagrid-content #{data.instructor.user.email}
+                    div.datagrid-item
+                        div.datagrid-title Instructor ID
+                        div.datagrid-content #{data.instructor.instructorId}
+        div.card.mt-3                
+            if data.instructor.courses.length != 0
+                div.card-header
+                    h3.card-title Assigned Courses
+                        span.card-subtitle (#{data.instructor.courses.length})
+                div.card-body
+                    table.table 
+                        thead 
+                            tr 
+                                th Code
+                                th Name
+                                th Semester
+                        tbody 
+                            each course in data.instructor.courses
+                                tr
+                                    td 
+                                        a(href=`/admin/courses/view/${course.id}`)= course.subject.code
+                                    td #{course.subject.name}
+                                    td #{course.semester} #{course.year}
+            else 
+                div.card-body
+                    div.empty
+                        p.empty-title No assigned courses

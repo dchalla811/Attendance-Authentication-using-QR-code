@@ -1,0 +1,16 @@
+extends ./page
+
+block pageBody 
+    div.page
+        include ./header
+        div.page-wrapper
+            div.page-header.d-print-none
+                div.container-xl
+                    div.row.g-2.align-items-center
+                        div.col
+                            h2.page-title #{title}
+                        div.col-auto.ms-auto.d-print-none
+                            block pageActions
+            div.page-body
+                block pageContent
+    

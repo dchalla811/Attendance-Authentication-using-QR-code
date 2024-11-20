@@ -1,0 +1,30 @@
+extends ../layouts/dashboard
+
+block pageContent 
+    div.container-xl
+        div.card.card-lg
+            div.card-body
+                if errors && errors.length !== 0
+                    div.alert.alert-danger
+                        each error in errors
+                            p= error
+                form(
+                    action="/instructor/courses/attendance", 
+                    method="post"
+                )   
+                    if defaults && defaults.id
+                        input(type="hidden", name="id", value=defaults.id)
+                    if defaults && defaults.date 
+                        input(type="hidden", name="date", value=defaults.date)
+                    div.row
+                        div.col-xl-12
+                            div.mb-3
+                                label.form-label Status
+                                select.form-select(name="status")
+                                    each status in data.statuses
+                                        option(
+                                            value=status.value, 
+                                            selected= defaults && defaults.status === status.value ? true : false
+                                        )= status.label
+                            button.btn.btn-primary(type="submit") Save
+                            

@@ -1,0 +1,68 @@
+extends ../layouts/dashboard
+
+block pageContent
+    div.container-xl
+        div.card
+            div.card-header
+                div 
+                    h3.card-title #{data.course.subject.name}
+                    p.card-subtitle  #{data.course.subject.code}
+                div.card-actions
+                    div.input-icon
+                        i.ti.ti-calendar.input-icon-addon
+                        input.form-control(
+                            placeholder="Select a date", 
+                            id="datepicker", 
+                            value= defaults.date ? defaults.date : ''
+                        )
+            div.card-body.p-0
+                if data.attendance && data.attendance.length != 0
+                    table.table.table-hover.table-vcenter
+                        thead 
+                            tr 
+                                th Name
+                                th Date
+                                th Time
+                                th Status
+                                th Actions
+                        tbody 
+                            each record in data.attendance
+                                tr
+                                    td #{record.student.user.fullName}
+                                    td #{record.date}
+                                    td #{record.time}
+                                    td #{record.status}
+                                    td 
+                                        a.btn.btn-primary.btn-sm(href=`/instructor/courses/attendance/${record.id}?date=${defaults.date}`)
+                                            i.ti.ti-pencil.me-1
+                                            | Edit
+                else
+                    include ../layouts/empty
+        
+
+block scripts
+    script(src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js")
+    script.
+        document.addEventListener('DOMContentLoaded', () => {
+            window.Litepicker && (new Litepicker({
+                element: document.getElementById('datepicker'),
+                singleMode: true,
+                format: 'YYYY-MM-DD',
+                lang: 'en-US',
+                numberOfMonths: 1,
+                numberOfColumns: 1,
+                buttonText: {
+                    previousMonth: '<i class="ti ti-chevron-left"/>',
+                    nextMonth: '<i class="ti ti-chevron-right"/>',
+                },
+                setup: (picker) => {
+                    picker.on('selected', (date) => {
+                        console.log(date);
+                        // Add date to query string of current URL
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('date', date.format('YYYY-MM-DD'));
+                        window.location.href = url.toString();
+                    });
+                }
+            }));
+        });

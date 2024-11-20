@@ -1,0 +1,27 @@
+div.collapse.navbar-collapse#navbar-menu
+    div.d-flex.flex-column.flex-md-row.flex-fill.align-items-stretch.align-items-md-center
+        ul.navbar-nav
+            li.nav-item
+                a.nav-link(href=header.roleId === 1 ? "/admin": "/instructor")
+                    span.nav-link-title Home
+            if header.roleId === 1
+                li.nav-item
+                    a.nav-link(href="/admin/subjects")
+                        span.nav-link-title Subjects 
+                li.nav-item.dropdown
+                    a.nav-link.dropdown-toggle(
+                        href="#",
+                        data-bs-toggle="dropdown",
+                        data-bs-auto-close="outside", 
+                        role="button" 
+                        aria-expanded="false"
+                    )
+                        span.nav-link-title Users
+                    div.dropdown-menu
+                        a.dropdown-item(href="/admin/instructors")
+                            span.nav-link-title Instructors 
+                        a.dropdown-item(href="/admin/students")
+                            span.nav-link-title Students
+                li.nav-item
+                    a.nav-link(href="/admin/courses")
+                        span.nav-link-title Courses

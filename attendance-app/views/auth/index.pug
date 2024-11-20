@@ -1,0 +1,36 @@
+extends ../layouts/page
+
+block pageBody
+    div.page.page-center
+        div.container.container-tight.py-4
+            div.text-center.mb-4
+                img.navbar-brand(src="images/logo_light.svg", alt="Attendance App")
+            div.card.card-md
+                div.card-body
+                    h2.h2.text-center.mb-4 Login to your account
+                    if messages.error
+                        div.alert.alert-danger(role="alert") 
+                            p= messages.error
+                    form(action="/auth", method="POST", autocomplete="off")
+                        div.mb-3
+                            label.form-label Email address
+                            input.form-control(
+                                name="email", 
+                                type="email", 
+                                placeholder="Enter your email", 
+                                autocomplete="off", 
+                                value="admin@att.app"
+                                required
+                            )
+                        div.mb-2
+                            label.form-label Password
+                            input.form-control(
+                                name="password", 
+                                type="password", 
+                                placeholder="Enter your password", 
+                                autocomplete="off", 
+                                value="123456"
+                                required
+                            )
+                        div.form-footer
+                            button.btn.btn-primary.w-100(type="submit") Sign in
