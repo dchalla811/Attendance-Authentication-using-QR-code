@@ -1,0 +1,60 @@
+extends ../layouts/dashboard
+
+block pageActions
+    div.btn-list
+        a.btn.btn-primary(href=`/admin/students/enroll-course/${data.student.id}`)
+            i.ti.ti-plus.me-1
+            | Enroll in Course
+            
+block pageContent
+    div.container-xl
+        div.card
+            div.card-body
+                div.datagrid
+                    div.datagrid-item
+                        div.datagrid-title Full Name
+                        div.datagrid-content #{data.student.user.fullName}
+                    div.datagrid-item
+                        div.datagrid-title Email
+                        div.datagrid-content #{data.student.user.email}
+                    div.datagrid-item
+                        div.datagrid-title Student ID
+                        div.datagrid-content #{data.student.studentId}
+    
+        div.card.mt-3
+            if data.student.courses.length != 0
+                div.card-header
+                    h3.card-title Enrolled Courses
+                        span.card-subtitle (#{data.student.courses.length})
+                div.card-body
+                    table.table 
+                        thead
+                            tr
+                                th Code
+                                th Name
+                                th Semester
+                                th Instructor 
+                                th Actions
+                        tbody
+                            each ec in data.student.courses
+                                tr
+                                    td 
+                                        a(href=`/admin/courses/view/${ec.courseId}`)= ec.course.subject.code
+                                    td #{ec.course.subject.name}
+                                    td #{ec.course.semester} #{ec.course.year}
+                                    td 
+                                        if ec.course.instructor
+                                            a(href=`/admin/instructors/${ec.course.instructor.id}`)= ec.course.instructor.user.fullName
+                                        else
+                                            span.badge.bg-red.text-red-fg Not Assigned
+                                    td 
+                                        form(action='/admin/students/drop-course', method="post" onsubmit="return confirm('Are you sure you want to drop this course?');")
+                                            input(type="hidden", name="studentId", value=data.student.id)
+                                            input(type="hidden", name="courseId", value=ec.courseId)
+                                            button.btn.btn-danger.btn-sm(type="submit")
+                                                i.ti.ti-trash.me-1
+                                                | Drop Course
+            else 
+                div.card-body
+                    div.empty
+                        p.empty-title No enrolled courses

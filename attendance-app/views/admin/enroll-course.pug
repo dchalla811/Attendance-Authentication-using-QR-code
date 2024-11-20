@@ -1,0 +1,28 @@
+extends ../layouts/dashboard
+
+block pageContent 
+    div.container-xl
+        div.card.card-lg
+            div.card-body
+                if errors
+                    div.alert.alert-danger
+                        each error in errors
+                            p= error
+                form(
+                    action="/admin/students/enroll-course", 
+                    method="post"
+                )   
+                    if defaults && defaults.studentId
+                        input(type="hidden", name="studentId", value=defaults.studentId)
+                    div.row
+                        div.col-xl-12
+                            div.mb-3
+                                label.form-label(for="course") Course
+                                select.form-select(name="courseId")
+                                    each course in data.courses
+                                        option(
+                                            value=course.id, 
+                                            selected= defaults && defaults.courseId === course.id ? true : false
+                                        )= `${course.subject.code} - ${course.subject.name}`
+                            button.btn.btn-primary(type="submit") Save
+                            

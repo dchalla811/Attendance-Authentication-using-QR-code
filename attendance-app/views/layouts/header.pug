@@ -1,0 +1,36 @@
+header.navbar.navbar-expand-md.d-print-none
+    div.container-xl
+        button.navbar-toggler(
+            type="button", 
+            data-bs-toggle="collapse", 
+            data-bs-target="#navbar-menu",
+            aria-controls="navbar-menu", 
+            aria-expanded="false",
+            aria-label="Toggle navigation"
+        )
+            span.navbar-toggler-icon
+        div.navbar-brand.navbar-brand-autodark.d-none-navbar-horizontal.pe-0.pe-md-3
+            a(href="/")
+                img(
+                    src="/images/logo_light.svg", 
+                    alt="Attendance App"
+                    width=128
+                )
+        div.navbar-nav.flex-row.order-md-last
+            div.nav-item.dropdown
+                a.nav-link.d-flex.lh-1.text-reset.p-0(
+                    href="#", 
+                        data-bs-toggle="dropdown", 
+                        aria-label="Open user menu"
+                    )
+                    span.avatar.avatar-sm.avatar-rounded( 
+                        style=`background-image: url(/images/default.png)`
+                    )
+                    div.d-none.d-xl-block.ps-2
+                        div #{header.fullName}
+                        div.mt-1.small.text-secondary #{header.role}
+                div.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
+                    //a.dropdown-item(href="./profile.html") Profile
+                    //div.dropdown-divider
+                    a.dropdown-item(href="/auth/logout") Logout
+        include ./nav

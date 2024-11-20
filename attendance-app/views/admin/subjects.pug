@@ -1,0 +1,33 @@
+extends ../layouts/dashboard
+
+block pageActions
+    div.btn-list
+        a.btn.btn-primary.d-none.d-sm-inline-block(href="/admin/subjects/add")
+            i.ti.ti-plus.me-1 
+            | Create new subject
+
+block pageContent
+    if data.courses.length != 0
+        div.container-xl
+            div.card
+                div.card-body
+                    div.table-responsive#table-default
+                        table.table
+                            thead 
+                                tr 
+                                    th Code 
+                                    th Name
+                                    th Credit Hours
+                                    th Actions
+                            tbody.table-tbody
+                                for course in data.courses
+                                    tr
+                                        td= course.code
+                                        td= course.name
+                                        td= course.creditHours
+                                        td
+                                            a.btn.btn-primary.btn-sm(href=`/admin/subjects/edit/${course.id}`)
+                                                i.ti.ti-pencil
+                                                | Edit
+    else
+        include ../layouts/empty

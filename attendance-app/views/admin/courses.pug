@@ -1,0 +1,52 @@
+extends ../layouts/dashboard
+
+block pageActions
+    div.btn-list
+        a.btn.d-none.d-sm-inline(href=`/admin/courses/import`)
+            | Import Courses
+
+        a.btn.btn-primary.d-none.d-sm-inline-block(href="/admin/courses/add")
+            i.ti.ti-plus.me-1 
+            | Create new course 
+
+block pageContent
+    if data.courses.length != 0 
+        div.container-xl
+            div.card
+                div.card-body
+                    div.table-responsive#table-default
+                        table.table
+                            thead 
+                                tr  
+                                    th Course ID
+                                    th Name 
+                                    th Code
+                                    th Semester
+                                    th Class Timing
+                                    th Instructor
+                                    th Actions
+                            tbody.table-tbody
+                                for course in data.courses
+                                    tr  
+                                        td= course.id
+                                        td= course.subject.name
+                                        td= course.subject.code
+                                        td= `${course.semester} ${course.year}`
+                                        td= `${course.classStartTime} - ${course.classEndTime}`
+                                        td
+                                            if course.instructor
+                                                a(href=`/admin/instructors/${course.instructor.id}`)= course.instructor.user.fullName
+                                            else
+                                                span.badge.bg-red.text-red-fg Not Assigned
+                                        td
+                                            a.btn.btn-primary.btn-sm.me-2(href=`/admin/courses/view/${course.id}`)
+                                                i.ti.ti-eye.me-1
+                                                | View
+                                            a.btn.btn-success.btn-sm(href=`/admin/courses/edit/${course.id}`)
+                                                i.ti.ti-pencil.me-1
+                                                | Edit
+    else
+        include ../layouts/empty
+
+
+    

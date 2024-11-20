@@ -1,0 +1,13 @@
+extends ../layouts/dashboard
+            
+block pageContent
+    div.container-xl
+        div.card
+            div.card-body
+                div.datagrid
+                    div.datagrid-item
+                        div.datagrid-title Full Name
+                        div.datagrid-content #{data.student.user.fullName}
+                    div.datagrid-item
+                        div.datagrid-title Student ID
+                        div.datagrid-content #{data.student.studentId}

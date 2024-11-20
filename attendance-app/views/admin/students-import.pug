@@ -1,0 +1,60 @@
+extends ../layouts/dashboard
+
+block stylesheets 
+    link(
+        rel="stylesheet", 
+        href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css",
+        type="text/css",
+    )
+    style.
+        .dropzone {
+            border: var(--tblr-border-width) dashed var(--tblr-border-color);
+            color: var(--tblr-secondary);
+            padding: 1rem
+        }
+        .dropzone .dz-message {
+            text-align: center;
+            margin: 3em 0;
+        }
+
+block pageContent
+    div.container-xl
+        div.card
+            form.dropzone.dz-clickable(
+                id="dropzone",
+                action="/admin/users/import/students",
+                method="POST",
+                enctype="multipart/form-data"
+                autocomplete="off"
+            )
+                div.dz-default.dz-message
+                    button.dz-button(type="button") Drop files here to upload
+
+block scripts
+    script(src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js", defer)
+    script.
+        document.addEventListener('DOMContentLoaded', () => {
+            Dropzone.autoDiscover = false;
+            new Dropzone('#dropzone', {
+                autoProcessQueue: true,
+                paramName: 'file',
+                maxFiles: 1,
+                acceptedFiles: '.csv',
+                init: function() {
+                    const myDropzone = this;
+
+                    myDropzone.on('success', (file, response) => {
+                        window.location.replace("/admin/students");
+                    });
+                    myDropzone.on('error', (file, response) => {
+                        if(response.message) {
+                            alert(response.message);
+                        }
+                        myDropzone.removeFile(file);
+                    });
+                }
+            });
+        });
+    
+
+    

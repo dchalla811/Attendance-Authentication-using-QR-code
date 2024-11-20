@@ -1,0 +1,41 @@
+extends ../layouts/dashboard
+
+block pageActions
+    div.btn-list
+        form(action='/instructor/end-class', method='POST')
+            input(type='hidden', name='classId', value=`${data.id}`)
+            button.btn.btn-primary(type='submit')
+                i.ti.ti-qrcode.me-1
+                | End Class
+
+block pageContent
+    div.container-xl
+        div.card
+            div.card-body
+                div.empty
+                    div.empty-img
+                        img(src= data.codeData, alt="QR Code")
+                    p.empty-title Scan the QR Code with app to mark your attendance.
+                    progress.progress.progress-sm.mt-4(
+                        value="0", 
+                        max="60", 
+                        style="width: 33%;", 
+                        id="progress"
+                    )
+
+
+block scripts
+    script.
+        document.addEventListener("DOMContentLoaded", () => {
+            var progress = document.getElementById('progress');
+            var counter = 0;
+            var interval = setInterval(function() {
+                counter++;
+                progress.value = counter;
+                if (counter >= 60) {
+                    clearInterval(interval);
+                    window.location.reload();
+                }
+            }, 1000);
+        });
+        

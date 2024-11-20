@@ -1,0 +1,42 @@
+extends ../layouts/dashboard
+
+block pageActions
+    div.btn-list
+        a.btn.d-none.d-sm-inline(href=`/admin/users/import/students`)
+            | Import Students
+
+        a.btn.btn-primary.d-none.d-sm-inline-block(href="/admin/users/add/student")
+            i.ti.ti-plus.me-1 
+            | Create new student 
+
+block pageContent
+    if data.students.length != 0 
+        div.container-xl
+            div.card
+                div.card-body
+                    div.table-responsive#table-default
+                        table.table
+                            thead 
+                                tr 
+                                    th Student ID
+                                    th Full Name 
+                                    th Email
+                                    th Actions
+                            tbody.table-tbody
+                                for student in data.students
+                                    tr
+                                        td= student.studentId
+                                        td= student.user.fullName
+                                        td= student.user.email
+                                        td
+                                            a.btn.btn-primary.btn-sm.me-2(href=`/admin/students/${student.id}`)
+                                                i.ti.ti-eye.me-1
+                                                | View
+                                            a.btn.btn-success.btn-sm(href=`/admin/users/edit/${student.user.id}`)
+                                                i.ti.ti-pencil.me-1
+                                                | Edit
+    else
+        include ../layouts/empty
+
+
+    
